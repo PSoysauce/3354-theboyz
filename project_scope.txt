@@ -1,0 +1,12 @@
+Fantasy Football App
+
+1.1 Players
+	1.1.1. View Football player stats from 2018
+	1.1.2. View Football player stats from previous week
+	1.1.3. ....
+2.2 League Rules
+	2.1.1. Allows User to insert league specific rules
+	2.1.2. Allows User to insert their specific team
+	2.1.3. ...
+
+// rough beginning, will be updated once The Boyz review their options

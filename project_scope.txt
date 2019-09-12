@@ -1,9 +1,9 @@
 Fantasy Football App
 
 1.1 User Profile
-1.1.1. User can choose a username
-            1.1.2. User can select a profile picture
-            1.1.3. User can choose their team name
+	1.1.1. User can choose a username
+        1.1.2. User can select a profile picture
+        1.1.3. User can choose their team name
 1.2 Players
 	1.2.1. View Football player stats from 2018
 	1.2.2. View Football player stats from previous week
@@ -12,7 +12,7 @@ Fantasy Football App
 	1.3.1. Allows User to set scoring modifiers
 	1.3.2. Allows User to insert their specific team
 1.4 Analysis Reports
-1.4.1. Weekly top performers
+	1.4.1. Weekly top performers
        	1.4.2. Top Projections for the upcoming week
 1.5 Stats
        	1.5.1. Display charts based on relevant stats

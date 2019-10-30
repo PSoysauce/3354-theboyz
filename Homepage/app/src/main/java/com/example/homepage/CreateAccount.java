@@ -49,7 +49,7 @@ public class CreateAccount extends AppCompatActivity {
 
     //function passwordMatch will take the two different passwords entered and will
     protected boolean passwordMatch(EditText a, EditText b) {
-        return a.getText().toString().equals(b.getText().toString());
+        return (a.getText().toString().equals(b.getText().toString()) && !(a.getText().toString().equals("")));
     }
 
     //openLoginPageActivity will move from the register page to the LoginPage

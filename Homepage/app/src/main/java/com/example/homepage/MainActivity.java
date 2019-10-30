@@ -12,12 +12,12 @@ public class MainActivity extends AppCompatActivity {
     private Button login;
     private Button register;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //Sets the button variable to the login button I created in the xml, so if they click it it will change to that given activity
         login = findViewById(R.id.login_button);
         login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //Sets the button variable to the register button I created in the xml, so if they click it it will change to that given activity
         register = findViewById(R.id.create_account_button);
         register.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -35,11 +36,13 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    //openLoginPageActivity will move from the homepage to the LoginPage
     public void openLoginPageActivity() {
         Intent intent = new Intent(getApplicationContext(), LoginPage.class);
         startActivity(intent);
     }
 
+    //openRegisterPageActivity will move from the homepage to the CreateAccount page
     public void openRegisterPageActivity() {
         Intent intent = new Intent(getApplicationContext(), CreateAccount.class);
         startActivity(intent);

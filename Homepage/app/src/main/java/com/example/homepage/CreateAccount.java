@@ -35,6 +35,7 @@ public class CreateAccount extends AppCompatActivity {
                         openLoginPageActivity();
                     }
                     else {
+                        Log.d("myTag", "OOf");
                         //Display error that registration failed
                     }
                 }
@@ -62,6 +63,13 @@ public class CreateAccount extends AppCompatActivity {
     //false which will make the form print out an error
     protected boolean register(EditText fName, EditText lName, EditText email, EditText usrName, EditText passwordA) {
         //Logic for database go here?
-        return true;
+        userDB db = new userDB();
+        Log.d("myTag", "This is my message");
+        if(db.addUser(email.getText().toString(), passwordA.getText().toString())) {
+            System.out.println("It added user successfully");
+            return true;
+        }
+        System.out.println("OOF MY GUY NO SUCCESSFULL CREATE");
+        return false;
     }
 }

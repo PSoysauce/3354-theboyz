@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import tech.tablesaw.api.DoubleColumn;
+import tech.tablesaw.api.IntColumn;
 import tech.tablesaw.api.LongColumn;
 import tech.tablesaw.api.Table;
 import tech.tablesaw.api.NumericColumn;
@@ -19,6 +20,9 @@ public class fftools
     private final double[] statWeights;
     private final String[] index = {"playerID", "name", "Team", "game.id", "date", "Season"};
     
+    /**
+     * Used to initialize the statInterface with the default settings
+     */
     public fftools()
     {
         //Example set of scored items
@@ -36,12 +40,22 @@ public class fftools
         this.statWeights = weights;
     }
     
+    /**
+     * Used to initialize the statInterface with the settings unique to a given user
+     * @param acc The userAccount for which the statistic settings are to be adjusted to
+     */
     public fftools(userAccount acc)
     {
         this.scoredStats = acc.getStats();
         this.statWeights = acc.getWeights();
     }
     
+    /**
+     * Generates a table with two columns Score/Touches
+     * @param df The player_stats table from any year
+     * @return Table index by player/game/team/season/playerID with two columns -- Score, Touches
+     * @throws Exception Throws an exception when the user has league settings that aren't configured properly (e.g. scoredStats contains an invalid field, scoredStats differs in length from statWeights)
+     */
     public Table applyScoring(Table df) throws Exception
     {
         df = this.deriveStats(df);
@@ -57,19 +71,24 @@ public class fftools
             if (current.equals("two_pts") || current.equals("st_ret_yds"))
                 scored.addColumns(df.doubleColumn(current).multiply(scoring.get(current)).setName(current));
             else
-                scored.addColumns(df.longColumn(current).multiply(scoring.get(current)).setName(current));
+                scored.addColumns(df.intColumn(current).multiply(scoring.get(current)).setName(current));
         }    
     
         
-        touches.addColumns(df.longColumn("rush.att")).addColumns(df.longColumn("recept")).addColumns(df.longColumn("xpa")).addColumns(df.longColumn("fga"));
+        touches.addColumns(df.intColumn("rush.att")).addColumns(df.intColumn("recept")).addColumns(df.intColumn("xpa")).addColumns(df.intColumn("fga"));
         
         DoubleColumn lp = DoubleColumn.create("Score", this.summarizeByRow(scored));
         DoubleColumn tc = DoubleColumn.create("Touches", this.summarizeByRow(touches));
         scored = Table.create("Player, Points, and Touches");   
-        scored.addColumns(df.stringColumn("playerID")).addColumns(df.stringColumn("name")).addColumns(df.longColumn("season")).addColumns(df.longColumn("game.id")).addColumns(df.stringColumn("date")).addColumns(df.stringColumn("Team")).addColumns(lp).addColumns(tc);
+        scored.addColumns(df.stringColumn("playerID")).addColumns(df.stringColumn("name")).addColumns(df.intColumn("season")).addColumns(df.intColumn("game.id")).addColumns(df.dateColumn("date")).addColumns(df.stringColumn("Team")).addColumns(lp).addColumns(tc);
         return scored.sortAscendingOn("playerID", "name", "season", "game.id", "date", "Team");
     }
-    
+
+    /**
+     * Generate a dictionary based on the users league settings. Key is the statistic, value is the weight of the statistic
+     * @return HashMap for the user's league settings
+     * @throws Exception Exception Throws an exception when the user has league settings that aren't configured properly (e.g. scoredStats contains an invalid field, scoredStats differs in length from statWeights)
+     */
     private HashMap<String, Double> scoredDict() throws Exception
     {
         HashMap <String, Double> scoring = new HashMap();
@@ -89,16 +108,25 @@ public class fftools
         return scoring;
     }
     
-    private static long[] toPrimitives(Long[] objects) 
+    /**
+     * Used to convert an array of Long (object type) to the long (primitive type)
+     * @param objects Array of object type longs
+     * @return Array of primitive type longs
+     */
+    private static int [] toPrimitives(Integer[] objects) 
     {
-        long[] primitives = new long[objects.length];
+        int[] primitives = new int[objects.length];
         for (int i = 0; i < objects.length; i++)
              primitives[i] = objects[i];
 
         return primitives;
     }
     
-    //Only pass a table with valid numeric cols (e.g. don't table with pass game.id or season)
+    /**
+     * Used to sum an entire table by row as opposed to summing a column and grouping on a row.
+     * @param df Table containing only the value the user wishes to sum
+     * @return Table An array containing the values for the summarize
+     */
     private double[] summarizeByRow(Table df)
     {
 //        df.
@@ -131,27 +159,33 @@ public class fftools
             }
             return summ;
         } catch (Exception e)
+        //If the exception is caught, it is likely the data being passed is long as opposed to double, cast data to long to solve issue
         {
             double [] summ = new double [y];
             for (int j = 0; j < y; j++)
             {
                 for (int i = 0; i < x; i++)
                 {
-                    summ[j] += (long)data[i][j];
+                    summ[j] += (int)data[i][j];
                 }
             }
             return summ;
         }
     }//end summarizeByRow
     
+    /**
+     * This function creates some statistics that are not explicitly available on NFL.com
+     * @param df player_stats table from any year
+     * @return Table containing the table passed in plus the derived statistics
+     */
     private Table deriveStats(Table df)
     {
-        DoubleColumn st_ret_yds = df.longColumn("kickret.avg").multiply(df.longColumn("kick.rets")).add(
-                    df.longColumn("puntret.avg").multiply(df.longColumn("punt.rets"))).setName("st_ret_yds");
-        DoubleColumn two_pts = df.longColumn("pass.twoptm").add(df.longColumn("pass.twoptm")).add(df.longColumn("rec.twoptm")).setName("two_pts");
-        DoubleColumn avg = df.longColumn("fgyds").divide(df.longColumn("fgm"));
-        ArrayList<Long> fg_s = new ArrayList();
-        LongColumn fga = df.longColumn("fga");
+        DoubleColumn st_ret_yds = df.intColumn("kickret.avg").multiply(df.intColumn("kick.rets")).add(
+                    df.intColumn("puntret.avg").multiply(df.intColumn("punt.rets"))).setName("st_ret_yds");
+        DoubleColumn two_pts = df.intColumn("pass.twoptm").add(df.intColumn("pass.twoptm")).add(df.intColumn("rec.twoptm")).setName("two_pts");
+        DoubleColumn avg = df.intColumn("fgyds").divide(df.intColumn("fgm"));
+        ArrayList<Integer> fg_s = new ArrayList();
+        IntColumn fga = df.intColumn("fga");
         for (int i = 0; i < avg.size(); i++)
         {
             if (avg.get(i) < 40)
@@ -161,10 +195,8 @@ public class fftools
             else
                 fg_s.add((fga.get(i) * 5));
         }
-        LongColumn fgs = LongColumn.create("fgs", toPrimitives(fg_s.toArray(new Long[fg_s.size()])));
+        IntColumn fgs = IntColumn.create("fgs", toPrimitives(fg_s.toArray(new Integer[fg_s.size()])));
         df = df.insertColumn(4, fgs).insertColumn(4, st_ret_yds).insertColumn(4, two_pts);
-       
-//                df.fgyds / df.fgm
         return df;
     }
 }//end class

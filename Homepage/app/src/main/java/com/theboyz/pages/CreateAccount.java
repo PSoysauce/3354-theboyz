@@ -1,6 +1,4 @@
-package com.example.homepage;
-
-import androidx.appcompat.app.AppCompatActivity;
+package com.theboyz.pages.pages;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,6 +6,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.homepage.R;
 
 public class CreateAccount extends AppCompatActivity {
     private Button register;
@@ -63,7 +65,7 @@ public class CreateAccount extends AppCompatActivity {
     //false which will make the form print out an error
     protected boolean register(EditText fName, EditText lName, EditText email, EditText usrName, EditText passwordA) {
         //Logic for database go here?
-        userDB db = new userDB();
+        //userDB db = new userDB();
         Log.d("myTag", "This is my message");
         if(db.addUser(email.getText().toString(), passwordA.getText().toString())) {
             System.out.println("It added user successfully");

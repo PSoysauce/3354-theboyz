@@ -1,4 +1,4 @@
-package com.theboyz.pages.pages;
+package com.theboyz.pages;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +10,7 @@ import android.widget.EditText;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.homepage.R;
+import com.theboyz.utils.*;
 
 public class CreateAccount extends AppCompatActivity {
     private Button register;

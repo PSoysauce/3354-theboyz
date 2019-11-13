@@ -1,4 +1,4 @@
-package com.theboyz.pages.pages;
+package com.theboyz.pages;
 
 import android.os.Bundle;
 import android.view.View;
@@ -9,6 +9,7 @@ import androidx.appcompat.widget.Toolbar;
 import com.example.homepage.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
+import com.theboyz.utils.*;
 
 public class MainAppPage extends AppCompatActivity {
 

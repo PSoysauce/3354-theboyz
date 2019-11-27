@@ -2,7 +2,6 @@ package com.theboyz.utils;
 
 import android.os.AsyncTask;
 
-import com.eclipsesource.json.JsonObject;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -45,8 +44,6 @@ public class apiGet extends AsyncTask<Map<String, String>, Void, JSONObject>
       String URL = params[0].get("URL");
       String token = params[0].get("token");
 
-      System.out.println("URL: " + URL);
-      System.out.println("Token: " + token);
       HttpClient httpClient = new DefaultHttpClient();
       HttpContext localContext = new BasicHttpContext();
       HttpGet httpGet = new HttpGet(URL);

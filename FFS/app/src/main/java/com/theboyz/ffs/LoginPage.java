@@ -18,7 +18,6 @@ public class LoginPage extends AppCompatActivity
 {
    private EditText email;
    private EditText pass;
-   private userAccount user;
 
    @Override
    protected void onCreate(Bundle savedInstanceState)
@@ -31,37 +30,41 @@ public class LoginPage extends AppCompatActivity
 
    public void _loginClick(View view)
    {
-      JSONObject response = ffsAPI.authenticate(email.getText().toString(), pass.getText().toString());
 
-      if (response != null)
+      try
       {
-         Intent intent = getIntent();
-         intent.putExtra("userjson", response.toString());
-         setResult(MainActivity.LOGIN_SUCCESSFUL, intent);
-         finish();
-      }//End if
-      else
-      {
-         //Create Dialog and display error
-         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-         builder.setMessage(R.string.login_error);
-         // Add ok button
-         builder.setPositiveButton(R.string.okay_button, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id)
+         JSONObject response = ffsAPI.authenticate(email.getText().toString(), pass.getText().toString());
+
+         if (response != null)
+         {
+            Intent intent = getIntent();
+            intent.putExtra("token", response.toString());
+            setResult(MainActivity.LOGIN_SUCCESSFUL, intent);
+            finish();
+         }//End if
+         else
+         {
+            //Create Dialog and display error
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage(R.string.login_error);
+            // Add ok button
+            builder.setPositiveButton(R.string.okay_button, new DialogInterface.OnClickListener()
             {
-               dialog.dismiss();
-            }
-         });
+               public void onClick(DialogInterface dialog, int id)
+               {
+                  dialog.dismiss();
+               }
+            });
 
-         //Could create no button here but no need to
-//            builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-//                public void onClick(DialogInterface dialog, int id) {
-//                    // User cancelled the dialog
-//                }
-//            });
+            AlertDialog dialog = builder.create();
+            dialog.show();
+         }
+      }//End try
+      catch (Exception e)
+      {
+         System.out.println(e.getMessage() + "\n\nFROM LOGIN PAGE");
+      }//End catch
+   }//Ends _loginClick
 
-         AlertDialog dialog = builder.create();
-         dialog.show();
-      }
-   }//End _loginClick
 }//End class LoginPage
+

@@ -1,0 +1,156 @@
+package com.theboyz.utils;
+
+import com.theboyz.ffs.R;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+public class Helpers
+{
+    public static <T> List<String> getListFromIterator(Iterator<T> iterator)
+    {
+        List<String> rVal = new ArrayList<>();
+        while (iterator.hasNext())
+            rVal.add((String) iterator.next());
+        return rVal;
+    }//End getListFromIterator
+
+    public static int getImageId(String team)
+    {
+        int rVal = R.drawable.logo;
+
+        switch(team)
+        {
+            case "ARI":
+                rVal = R.drawable.ari;
+                break;
+
+            case "ATL":
+                rVal = R.drawable.atl;
+                break;
+
+            case "BAL":
+                rVal = R.drawable.bal;
+                break;
+
+            case "BUF":
+                rVal = R.drawable.buf;
+                break;
+
+            case "CAR":
+                rVal = R.drawable.car;
+                break;
+
+            case "CHI":
+                rVal = R.drawable.chi;
+                break;
+
+            case "CIN":
+                rVal = R.drawable.cin;
+                break;
+
+            case "CLE":
+                rVal = R.drawable.cle;
+                break;
+
+            case "DAL":
+                rVal = R.drawable.dal;
+                break;
+
+            case "DEN":
+                rVal = R.drawable.den;
+                break;
+
+            case "DET":
+                rVal = R.drawable.det;
+                break;
+
+            case "GB":
+                rVal = R.drawable.gb;
+                break;
+
+            case "HOU":
+                rVal = R.drawable.hou;
+                break;
+
+            case "IND":
+                rVal = R.drawable.ind;
+                break;
+
+            case "JAX":
+                rVal = R.drawable.jax;
+                break;
+
+            case "KC":
+                rVal = R.drawable.kc;
+                break;
+
+            case "LA":
+                rVal = R.drawable.la;
+                break;
+
+            case "LAC":
+                rVal = R.drawable.lac;
+                break;
+
+            case "MIA":
+                rVal = R.drawable.mia;
+                break;
+
+            case "MIN":
+                rVal = R.drawable.min;
+                break;
+
+            case "NE":
+                rVal = R.drawable.ne;
+                break;
+
+            case "NO":
+                rVal = R.drawable.no;
+                break;
+
+            case "NYG":
+                rVal = R.drawable.nyg;
+                break;
+
+            case "NYJ":
+                rVal = R.drawable.nyj;
+                break;
+
+            case "OAK":
+                rVal = R.drawable.oak;
+                break;
+
+            case "PHI":
+                rVal = R.drawable.phi;
+                break;
+
+            case "PIT":
+                rVal = R.drawable.pit;
+                break;
+
+            case "SEA":
+                rVal = R.drawable.sea;
+                break;
+
+            case "SF":
+                rVal = R.drawable.sf;
+                break;
+
+            case "TB":
+                rVal = R.drawable.tb;
+                break;
+
+            case "TEN":
+                rVal = R.drawable.ten;
+                break;
+
+            case "WAS":
+                rVal = R.drawable.was;
+                break;
+        }//End Switch
+
+        return rVal;
+    }
+}

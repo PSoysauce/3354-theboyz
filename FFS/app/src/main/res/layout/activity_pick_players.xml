@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/cardview_dark_background"
+    tools:context=".PickPlayers">
+
+    <EditText
+        android:id="@+id/playerSearchField"
+        android:layout_width="379dp"
+        android:layout_height="22dp"
+        android:layout_marginTop="64dp"
+        android:background="@color/cardview_dark_background"
+        android:ems="10"
+        android:hint="Enter Player Name"
+        android:inputType="textPersonName"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/playerView"
+        android:layout_width="406dp"
+        android:layout_height="419dp"
+        android:layout_marginTop="28dp"
+        android:background="@color/cardview_dark_background"
+        android:padding="6dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/playerSearchField" />
+
+    <Button
+        android:id="@+id/saveBtn"
+        android:layout_width="268dp"
+        android:layout_height="46dp"
+        android:layout_marginTop="50dp"
+        android:onClick="_save_changes"
+        android:text="@string/save_button_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/playerView" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

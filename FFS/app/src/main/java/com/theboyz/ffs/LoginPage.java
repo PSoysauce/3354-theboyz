@@ -47,23 +47,20 @@ public class LoginPage extends AppCompatActivity
             //Create Dialog and display error
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setMessage(R.string.login_error);
+
             // Add ok button
-            builder.setPositiveButton(R.string.okay_button, new DialogInterface.OnClickListener()
-            {
-               public void onClick(DialogInterface dialog, int id)
-               {
-                  dialog.dismiss();
-               }
-            });
+            builder.setPositiveButton(R.string.okay_button, (dialog, id) -> dialog.dismiss());
 
             AlertDialog dialog = builder.create();
             dialog.show();
          }
       }//End try
+
       catch (Exception e)
       {
          System.out.println(e.getMessage() + "\n\nFROM LOGIN PAGE");
       }//End catch
+
    }//Ends _loginClick
 
 }//End class LoginPage

@@ -1,10 +1,7 @@
 package com.theboyz.utils;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import org.json.JSONObject;
-import org.json.*;
-
 /**
  * userAccount class keeps track of details related to the users team
  * @author chaseuphaus

@@ -2,6 +2,8 @@ package com.theboyz.utils;
 
 import com.theboyz.ffs.R;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -152,5 +154,10 @@ public class Helpers
         }//End Switch
 
         return rVal;
+    }
+
+    public static JSONObject getDefaultScoring() throws Exception
+    {
+        return new JSONObject("{\"pass.comp\":0.1,\"passyds\":0.04,\"pass.tds\":6,\"pass.ints\":-2,\"rush.att\":0.1,\"rushyds\":0.1,\"rushtds\":6,\"recept\":0.4,\"recyds\":0.1,\"rec.tds\":6,\"st_ret_yds\":0.05,\"kickret.tds\":6,\"puntret.tds\":6,\"fumbslost\":-2,\"two_pts\":2,\"xpa\":1,\"fgs\":1}");
     }
 }

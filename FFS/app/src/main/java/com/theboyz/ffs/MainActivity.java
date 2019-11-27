@@ -32,7 +32,8 @@ public class MainActivity extends AppCompatActivity
 
     public void _login_clicked(View view)
     {
-        startActivityForResult(new Intent(this, LoginPage.class), LOGIN_REQUEST_CODE);
+//        startActivityForResult(new Intent(this, LoginPage.class), LOGIN_REQUEST_CODE);
+        startActivity(new Intent(this, PickScoring.class));
     }
 
     @Override

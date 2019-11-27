@@ -21,10 +21,6 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
 
 public class PickPlayers extends AppCompatActivity
 {

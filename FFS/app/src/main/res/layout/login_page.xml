@@ -31,6 +31,7 @@
         android:hint="Password"
         android:importantForAutofill="no"
         android:inputType="textPassword"
+        android:textColor="#FFFFFF"
         android:textColorHint="#FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

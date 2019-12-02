@@ -38,7 +38,7 @@ public class ffsAPI
         return rVal;
     }//End authenticate
 
-    public static boolean updateLeagueConfig(userAccount user) throws Exception
+    public static boolean updateUserConfig(userAccount user) throws Exception
     {
 
         boolean status = true;
@@ -50,6 +50,12 @@ public class ffsAPI
         params.put("json", user.genAccJson().toString());
 
         JSONObject response = new apiPost().execute(params).get();
+
+        if (!(response.getString("status").equals("success")))
+            status = false;
+
+        //Reflect new changes locally
+        user.configureUser(ffsAPI.getUserConfig(user));
 
         return status;
     }//End updateLeagueConfig
@@ -76,6 +82,29 @@ public class ffsAPI
         return rVal;
     }//End get players
 
+    public static ArrayList<NFLPlayer> getTeam(userAccount user) throws Exception
+    {
+        HashMap<String, String> params = new HashMap<>();
+        params.put("URL", URL + "api/get_team");
+        params.put("token", user.getToken());
+        params.put("datatype", "keyvalue");
+
+
+        JSONObject response = new apiGet().execute(params).get();
+        if (!(response.getString("status").equals("success")))
+            return null;
+
+        JSONObject players = response.getJSONObject("data");
+        ArrayList<String> playerKeys = (ArrayList) Helpers.getListFromIterator(players.keys());
+        ArrayList<NFLPlayer> rVal = new ArrayList<>();
+        for (int i = 0; i < playerKeys.size(); i++)
+        {
+            rVal.add(new NFLPlayer(players.getJSONObject(playerKeys.get(i))));
+        }
+        return rVal;
+    }//End get Team
+
+
 
     public static JSONObject getUserConfig(userAccount user) throws Exception
     {
@@ -84,6 +113,7 @@ public class ffsAPI
         params.put("token", user.getToken());
         params.put("datatype", "keyvalue");
         JSONObject response = new apiGet().execute(params).get();
+
         if (!(response.getString("status").equals("success")))
             response = null;
         else
@@ -91,6 +121,33 @@ public class ffsAPI
 
         return response;
     }//End getUserConfig
+
+    public static boolean register(String email, String user_name, String password)
+    {
+        boolean rVal = false;
+        try
+        {
+            HashMap<String, String> params = new HashMap<>();
+            params.put("URL", URL + "api/register");
+            params.put("token", "NONE");
+            params.put("datatype", "keyvalue");
+            params.put("name", user_name);
+            params.put("email", email);
+            params.put("password", password);
+            JSONObject response = new apiPost().execute(params).get();
+            if (!(response.getString("status").equals("success")))
+                rVal = true;
+            else
+                rVal = false;
+
+        }
+        catch (Exception e)
+        {
+            System.out.println(e.getMessage() + "\nFROM ffsAPI_register");
+            rVal = false;
+        }
+        return rVal;
+    }//End authenticate
 
 
 

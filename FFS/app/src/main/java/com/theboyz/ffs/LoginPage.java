@@ -4,15 +4,10 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import com.theboyz.utils.*;
 
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import org.json.*;
-
-import java.util.HashMap;
-
 
 public class LoginPage extends AppCompatActivity
 {
@@ -37,9 +32,8 @@ public class LoginPage extends AppCompatActivity
 
          if (response != null)
          {
-            Intent intent = getIntent();
-            intent.putExtra("token", response.toString());
-            setResult(MainActivity.LOGIN_SUCCESSFUL, intent);
+            this.getIntent().putExtra("loginResponse", response.toString());
+            setResult(MainActivity.LOGIN_SUCCESSFUL, this.getIntent());
             finish();
          }//End if
          else

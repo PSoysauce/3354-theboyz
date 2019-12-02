@@ -12,10 +12,9 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
-import com.theboyz.ui.PlayerCardOffset;
-import com.theboyz.ui.PlayerViewAdapter;
+import com.theboyz.ui.CardViewOffset;
+import com.theboyz.ui.PickPlayerAdapter;
 import com.theboyz.utils.*;
-import org.apache.http.NameValuePair;
 
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;
@@ -26,7 +25,7 @@ public class PickPlayers extends AppCompatActivity
 {
     private EditText searchField;
     private RecyclerView recyclerView;
-    private PlayerViewAdapter rAdapter;
+    private PickPlayerAdapter rAdapter;
     private RecyclerView.LayoutManager rLayoutManager;
     private RecyclerView.ItemDecoration rItemDecorator;
     private ArrayList<NFLPlayer> players;
@@ -44,28 +43,32 @@ public class PickPlayers extends AppCompatActivity
 
         try
         {
-            this.user = new userAccount(new JSONObject(getIntent().getStringExtra("token")).getString("token"));
-            this.user.configureUser(ffsAPI.getUserConfig(this.user));
-            players = ffsAPI.getPlayers(this.user, "2019");
-            NFLPlayer currentPlayer;
-            for (int i = 0; i < players.size(); i++)
+            JSONObject loginResponse = new JSONObject(getIntent().getStringExtra("loginResponse"));
+            this.user = new userAccount(loginResponse.getString("token"), loginResponse.getInt("id"));
+
+            JSONObject userConfig = ffsAPI.getUserConfig(this.user);
+
+            if (userConfig == null)
             {
-                currentPlayer = players.get(i);
-                currentPlayer.setImageResource(this.getResources().getIdentifier(currentPlayer.getTeam().toLowerCase() + ".png", "drawable", this.getPackageName()));
-            }
+                setResult(MainActivity.USER_NOT_CONFIGURED, this.getIntent());
+                finish();
+                return;
+            }//END IF
+
+            this.user.configureUser(userConfig);
+            players = ffsAPI.getPlayers(this.user, "2019");
         }//End try
 
         catch(Exception e)
         {
-            System.out.println(e.getMessage());
-            finish();
+            System.out.println(e.getMessage() + " FROM PICK PLAYERS CREATE USER ACCOUNT");
         }//End catch
 
         this.searchField = findViewById(R.id.playerSearchField);
         this.recyclerView = findViewById(R.id.playerView);
-        this.rItemDecorator = new PlayerCardOffset(this, R.dimen.player_card_offset);
+        this.rItemDecorator = new CardViewOffset(this, R.dimen.card_view_offset);
         this.rLayoutManager = new LinearLayoutManager(this);
-        this.rAdapter = new PlayerViewAdapter(players, this.todo, this.user);
+        this.rAdapter = new PickPlayerAdapter(players, this.todo, this.user);
 
         this.recyclerView.setLayoutManager(this.rLayoutManager);
         this.recyclerView.addItemDecoration(this.rItemDecorator);
@@ -123,6 +126,8 @@ public class PickPlayers extends AppCompatActivity
         this.user.setPlayers(ids.toArray(new String[ids.size()]));
         this.todo.clear();
         this.rAdapter.notifyDataSetChanged();
+        setResult(MainActivity.PICK_PLAYER_SUCCESSFUL, this.getIntent());
+        finish();
     }//End _save_changes
 
     private void closeKeyboard()
@@ -137,10 +142,10 @@ public class PickPlayers extends AppCompatActivity
 
     public class PlayerFilter implements TextWatcher
     {
-        PlayerViewAdapter adapter;
+        PickPlayerAdapter adapter;
         EditText searchField;
 
-        public PlayerFilter(PlayerViewAdapter adapter, EditText searchField)
+        public PlayerFilter(PickPlayerAdapter adapter, EditText searchField)
         {
             this.adapter = adapter;
             this.searchField = searchField;
